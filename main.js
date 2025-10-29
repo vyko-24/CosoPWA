@@ -4,13 +4,17 @@ const inputName = document.getElementById('nombre');
 const inputFecha = document.getElementById('fecha');
 const btnAdd = document.getElementById('btnAdd');
 const btnList = document.getElementById('btnList');
+const listaTareasDiv = document.getElementById('lista-tareas');
+
+
 
 btnAdd.addEventListener('click', (event) => {
 
     const tarea = {
         _id: new Date().toISOString(),
         nombre: inputName.value,
-        fecha: inputFecha.value
+        fecha: inputFecha.value,
+        status:false
     }
 
     db.put(tarea)
@@ -24,14 +28,70 @@ btnAdd.addEventListener('click', (event) => {
 
 });
 
-btnList.addEventListener('click', (event) => {
+function renderTasks() {
     db.allDocs({
         include_docs: true
     }).then(function (result) {
-        console.log('Resultado',result.rows);
-        
+        // console.log('Resultado', result.rows);
+        listaTareasDiv.innerHTML = ''; 
+
+        const tareasPendientes = result.rows
+            .map(row => row.doc)
+            .filter(doc => doc.status === false); 
+
+        if (tareasPendientes.length === 0) {
+            listaTareasDiv.innerHTML = '<p style="text-align: center; color: #718096; padding: 15px;">🎉 ¡No hay tareas pendientes! ¡Buen trabajo!</p>';
+            return;
+        }
+
+        tareasPendientes.forEach(tarea => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'tarea-item'; 
+            itemDiv.innerHTML = `
+                <div>
+                    <span class="tarea-nombre">${tarea.nombre}</span>
+                    <span class="tarea-fecha">${tarea.fecha}</span>
+                </div>
+                <button class="btn-done" data-id="${tarea._id}">Hecho</button> 
+            `;
+            
+            /*
+            <input type="checkbox" class="task-checkbox" data-id="${tarea._id}">
+            */
+
+            listaTareasDiv.appendChild(itemDiv);
+        });
+
+        document.querySelectorAll('.btn-done').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const taskId = e.currentTarget.dataset.id;
+                const tareaADesmarcar = tareasPendientes.find(t => t._id === taskId);
+                if (tareaADesmarcar) {
+                    toggleStatus(tareaADesmarcar);
+                }
+            });
+        });
     });
-})
+}
+
+btnList.addEventListener('click', renderTasks)
+
+function toggleStatus(tarea) {
+    const tareaActualizada = {
+        ...tarea,
+        status: !tarea.status,
+    };
+    
+    db.put(tareaActualizada)
+        .then(() => {
+            console.log(`✅ Tarea '${tarea.nombre}' actualizada a status: ${tareaActualizada.status}`);
+            renderTasks();
+        })
+        .catch(err => console.error('Error al actualizar la tarea:', err));
+}
+
+
+
 
 // Detectar si la app está en modo standalone (instalada)
 window.addEventListener('DOMContentLoaded', () => {

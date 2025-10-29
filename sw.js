@@ -6,7 +6,7 @@ const appShellAssets = [
     './',
     './index.html',
     './main.js',
-
+    './styles.css',
 ];
 
 
