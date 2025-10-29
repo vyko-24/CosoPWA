@@ -40,7 +40,7 @@ function renderTasks() {
             .filter(doc => doc.status === false); 
 
         if (tareasPendientes.length === 0) {
-            listaTareasDiv.innerHTML = '<p style="text-align: center; color: #718096; padding: 15px;">🎉 ¡No hay tareas pendientes! ¡Buen trabajo!</p>';
+            listaTareasDiv.innerHTML = '<p style="text-align: center; color: #718096; padding: 15px;">¡No hay tareas pendientes! ¡Buen trabajo!</p>';
             return;
         }
 
