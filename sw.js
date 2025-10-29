@@ -3,10 +3,10 @@ const CACHE_NAME = 'cocktail-pwa-v2';
 
 // 1. Recursos del App Shell (Cache Only)
 const appShellAssets = [
-    '/',
-    '/index.html',
-    '/main.js',
-    
+    './',
+    './index.html',
+    './main.js',
+
 ];
 
 
