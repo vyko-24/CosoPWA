@@ -13,19 +13,19 @@
             "src": "./images/icons/192.png",
             "sizes": "192x192",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any" 
         },
         {
             "src": "./images/icons/512.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         }
     ],
     "screenshots": [
         {
             "src": "./images/screenshots/mobile-screenshot.png",
-            "sizes": "390x844",
+            "sizes": "1080x1920", 
             "type": "image/png",
             "form_factor": "narrow"
         }
