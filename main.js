@@ -40,7 +40,7 @@ function renderTasks() {
             .filter(doc => doc.status === false); 
 
         if (tareasPendientes.length === 0) {
-            listaTareasDiv.innerHTML = '<p style="text-align: center; color: #718096; padding: 15px;">¡No hay tareas pendientes! ¡Buen trabajo!</p>';
+            listaTareasDiv.innerHTML = '<p style="text-align: center; color: #718096; padding: 15px;">Sin pendientes</p>';
             return;
         }
 
@@ -113,13 +113,12 @@ if ('serviceWorker' in navigator) {
             .then(registration => {
                 console.log('✅ Service Worker registrado exitosamente: ', registration);
 
-                // Verificar actualizaciones periódicamente
                 setInterval(() => {
                     registration.update();
                 }, 60 * 60 * 1000); // Cada hora
 
             })
-            .catch(err => console.error('❌ Error en registro del Service Worker: ', err));
+            .catch(err => console.error('Error en registro del Service Worker: ', err));
     });
 
     // Detectar cambios en el Service Worker

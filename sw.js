@@ -43,16 +43,22 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
 
     const requestUrl = new URL(event.request.url);
-    const isAppShellRequest = appShellAssets.some(asset =>
-        requestUrl.pathname === asset || requestUrl.pathname === asset.substring(1)
-    );
+    const pathname = requestUrl.pathname;
+    
+    const scopePrefix = '/CosoPWA/'; 
+    
+    const isAppShellRequest = appShellAssets.some(asset => {
+        let normalizedPathname = pathname.startsWith(scopePrefix) ? pathname.substring(scopePrefix.length) : pathname.substring(1);
+        
+        return normalizedPathname === asset.substring(2) || (asset === './' && normalizedPathname === 'index.html');
+    });
+
 
     if (isAppShellRequest) {
-        console.log(`[SW] 🔒 App Shell: CACHE ONLY para ${requestUrl.pathname}`);
+        console.log(`[SW] 🔒 App Shell: CACHE ONLY para ${pathname}`);
         event.respondWith(
             caches.match(event.request)
                 .then(response => {
-                    // Devolvemos la respuesta de caché o un error 500 si falta el archivo
                     return response || new Response('App Shell Asset Missing', { status: 500 });
                 })
         );
