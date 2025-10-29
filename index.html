@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pouch DB</title>
+</head>
+<body>
+    <h1>Gestión de tareas</h1>
+    <form >
+        <fieldset>
+            <legend>Nueva Tarea</legend>
+            <p>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre"/>
+            </p><p>
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha"/>
+            </p>
+            <p><button type="button" id="btnAdd">Agregar tarea</button></p>
+        </fieldset>
+    </form>
+
+    <button type="button" id="btnList">Listar tareas</button>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/pouchdb@9.0.0/dist/pouchdb.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
